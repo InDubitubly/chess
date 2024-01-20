@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Represents a single chess piece
@@ -45,6 +46,19 @@ public class ChessPiece {
     }
 
     /**
+     *
+     */
+    public Collection<ChessMove> findBishopMoves(ChessBoard board, ChessPosition pos) {
+        Collection<ChessMove> the_moves = new HashSet<>();
+
+//        the_moves.add();
+        return the_moves;
+    }
+
+
+
+
+    /**
      * Calculates all the positions a chess piece can move to
      * Does not take into account moves that are illegal due to leaving the king in
      * danger
@@ -52,6 +66,9 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        if (this.type == PieceType.BISHOP) {
+            return findBishopMoves(board, myPosition);
+        }
+        return null;
     }
 }

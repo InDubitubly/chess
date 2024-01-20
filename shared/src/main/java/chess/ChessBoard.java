@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Iterator;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -8,9 +10,12 @@ package chess;
  */
 public class ChessBoard {
     private ChessPiece[][] board = new ChessPiece[8][8]; //first horizontal, second vertical
+    private ChessPiece.PieceType[] white_order = {
+            ChessPiece.PieceType.ROOK, ChessPiece.PieceType.KNIGHT};
+
 
     public ChessBoard() {
-        
+
     }
 
     /**
@@ -39,6 +44,13 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        throw new RuntimeException("Not implemented");
+        for (int i = 1; i < 9; i++){
+            ChessPosition white_pos = new ChessPosition(2,i);
+            ChessPosition black_pos = new ChessPosition(7,i);
+            ChessPiece white_pawn = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
+            ChessPiece black_pawn = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
+            this.addPiece(white_pos, white_pawn);
+            this.addPiece(black_pos, black_pawn);
+        }
     }
 }
