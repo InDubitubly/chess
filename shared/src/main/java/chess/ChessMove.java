@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.Objects;
+
 /**
  * Represents moving a chess piece on a chessboard
  * <p>
@@ -7,9 +9,26 @@ package chess;
  * signature of the existing methods.
  */
 public class ChessMove {
-
+    ChessPosition start;
+    ChessPosition end;
+    ChessPiece.PieceType type;
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,
                      ChessPiece.PieceType promotionPiece) {
+        start = startPosition;
+        end = endPosition;
+        type = promotionPiece;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this==o) return true;
+        if(!(o instanceof ChessMove chessMove)) return false;
+        return Objects.equals(start, chessMove.start) && Objects.equals(end, chessMove.end) && type==chessMove.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(start, end, type);
     }
 
     /**
