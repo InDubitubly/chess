@@ -17,10 +17,13 @@ public class ChessBoard {
             ChessPiece.PieceType.KNIGHT, ChessPiece.PieceType.ROOK};
             // piece order from left to right, for both sides
 
+    public ChessBoard() {
+
+    }
 
     @Override
     public String toString() {
-        String result = "";
+        String result = "\n";
         for(int i=1; i < 9; i++) {
             for(int j=1; j < 9; j++) {
                 ChessPosition temp=new ChessPosition(i, j);
@@ -35,8 +38,22 @@ public class ChessBoard {
         return result;
     }
 
-    public ChessBoard() {
+    @Override
+    public boolean equals(Object o) {
+        if(this==o) return true;
+        if(!(o instanceof ChessBoard that)) return false;
+        if (this.hashCode() == o.hashCode()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    @Override
+    public int hashCode() {
+        int result=this.toString().hashCode();
+        result=31 * result;
+        return result;
     }
 
     /**
