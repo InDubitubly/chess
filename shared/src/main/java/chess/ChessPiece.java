@@ -2,6 +2,7 @@ package chess;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * Represents a single chess piece
@@ -13,6 +14,67 @@ public class ChessPiece {
     PieceType type;
     ChessGame.TeamColor color;
 
+    @Override
+    public boolean equals(Object o) {
+        if(this==o) return true;
+        if(!(o instanceof ChessPiece that)) return false;
+        return type==that.type && color==that.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, color);
+    }
+
+    @Override
+    public String toString() {
+        char type = 'e';
+        switch (this.type) {
+            case KING:
+                if (this.color == ChessGame.TeamColor.BLACK){
+                    type = 'K';
+                }  else {
+                    type = 'k';
+                }
+                break;
+            case QUEEN:
+                if (this.color == ChessGame.TeamColor.BLACK){
+                    type = 'Q';
+                }  else {
+                    type = 'q';
+                }
+                break;
+            case BISHOP:
+                if (this.color == ChessGame.TeamColor.BLACK){
+                    type = 'B';
+                }  else {
+                    type = 'b';
+                }
+                break;
+            case KNIGHT:
+                if (this.color == ChessGame.TeamColor.BLACK){
+                    type = 'N';
+                }  else {
+                    type = 'n';
+                }
+                break;
+            case ROOK:
+                if (this.color == ChessGame.TeamColor.BLACK){
+                    type = 'R';
+                }  else {
+                    type = 'r';
+                }
+                break;
+            case PAWN:
+                if (this.color == ChessGame.TeamColor.BLACK){
+                    type = 'P';
+                }  else {
+                    type = 'p';
+                }
+                break;
+            }
+        return type + "";
+    }
 
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.type = type;

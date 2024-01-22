@@ -1,6 +1,6 @@
 package chess;
 
-import java.util.Iterator;
+import java.util.Arrays;
 
 /**
  * A chessboard that can hold and rearrange chess pieces.
@@ -10,9 +10,18 @@ import java.util.Iterator;
  */
 public class ChessBoard {
     private ChessPiece[][] board = new ChessPiece[8][8]; //first horizontal, second vertical
-    private ChessPiece.PieceType[] white_order = {
-            ChessPiece.PieceType.ROOK, ChessPiece.PieceType.KNIGHT};
+    private ChessPiece.PieceType[] piece_order = {
+            ChessPiece.PieceType.ROOK, ChessPiece.PieceType.KNIGHT,
+            ChessPiece.PieceType.BISHOP, ChessPiece.PieceType.QUEEN,
+            ChessPiece.PieceType.KING, ChessPiece.PieceType.BISHOP,
+            ChessPiece.PieceType.KNIGHT, ChessPiece.PieceType.ROOK};
+            // piece order from left to right, for both sides
 
+
+    @Override
+    public String toString() {
+        return "ChessBoard{" + "board=" + Arrays.toString(board) + ", piece_order=" + Arrays.toString(piece_order) + '}';
+    }
 
     public ChessBoard() {
 
@@ -45,12 +54,18 @@ public class ChessBoard {
      */
     public void resetBoard() {
         for (int i = 1; i < 9; i++){
-            ChessPosition white_pos = new ChessPosition(2,i);
-            ChessPosition black_pos = new ChessPosition(7,i);
+            ChessPosition white_pawns = new ChessPosition(2,i);
+            ChessPosition black_pawns = new ChessPosition(7,i);
+            ChessPosition white_pos = new ChessPosition(1,i);
+            ChessPosition black_pos = new ChessPosition(8,i);
             ChessPiece white_pawn = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
             ChessPiece black_pawn = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
-            this.addPiece(white_pos, white_pawn);
-            this.addPiece(black_pos, black_pawn);
+            ChessPiece white_piece = new ChessPiece(ChessGame.TeamColor.WHITE, piece_order[i-1]);
+            ChessPiece black_piece = new ChessPiece(ChessGame.TeamColor.BLACK, piece_order[i-1]);
+            this.addPiece(white_pawns, white_pawn);
+            this.addPiece(black_pawns, black_pawn);
+            this.addPiece(white_pos, white_piece);
+            this.addPiece(black_pos, black_piece);
         }
     }
 }

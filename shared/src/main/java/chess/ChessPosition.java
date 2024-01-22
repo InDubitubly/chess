@@ -32,6 +32,10 @@ public class ChessPosition {
         return this.col;
     }
 
+    @Override
+    public String toString() {
+        return "ChessPosition{" + "row=" + row + ", col=" + col + '}';
+    }
 
     @Override
     public boolean equals(Object o) {
