@@ -20,7 +20,19 @@ public class ChessBoard {
 
     @Override
     public String toString() {
-        return "ChessBoard{" + "board=" + Arrays.toString(board) + ", piece_order=" + Arrays.toString(piece_order) + '}';
+        String result = "";
+        for(int i=1; i < 9; i++) {
+            for(int j=1; j < 9; j++) {
+                ChessPosition temp=new ChessPosition(i, j);
+                if(this.getPiece(temp)!=null) {
+                    result += "|" + this.getPiece(temp) + "|";
+                } else {
+                    result += "| |";
+                }
+            }
+            result += "\n";
+        }
+        return result;
     }
 
     public ChessBoard() {
