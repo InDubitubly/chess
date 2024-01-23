@@ -562,6 +562,90 @@ public class ChessPiece {
         return the_moves;
     }
 
+    /**
+     * Pawns
+     * @param board
+     * @param pos
+     * @return
+     */
+    public Collection<ChessMove> findPawnMoves(ChessBoard board, ChessPosition pos) {
+        ChessPosition new_pos = null;
+        Collection<ChessMove> the_moves = new HashSet<>();
+
+        //black pawns
+        if (this.getTeamColor() == ChessGame.TeamColor.BLACK ) {
+            // if at the other side   TODO: implement promoting
+            if (pos.getRow() == 1) {
+                return the_moves;
+            }
+            new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn());
+            // if open
+            if (board.getPiece(new_pos) == null) {
+                ChessMove one = new ChessMove(pos, new_pos, null);
+                the_moves.add(one);
+            }
+            // if not moved
+            if (pos.getRow() == 7) {
+                ChessPosition newer_pos = new ChessPosition(pos.getRow()-2, pos.getColumn());
+                // if open
+                if (board.getPiece(newer_pos) == null && board.getPiece(new_pos) == null) {
+                    ChessMove two = new ChessMove(pos, newer_pos, null);
+                    the_moves.add(two);
+                }
+            }
+            // if can attack left
+            new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
+            if (board.getPiece(new_pos) != null && board.getPiece(new_pos).getTeamColor() != this.getTeamColor()) {
+                ChessMove capture = new ChessMove(pos, new_pos, null);
+                the_moves.add(capture);
+            }
+            // if can attack right
+            new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
+            if (board.getPiece(new_pos) != null && board.getPiece(new_pos).getTeamColor() != this.getTeamColor()) {
+                ChessMove capture = new ChessMove(pos, new_pos, null);
+                the_moves.add(capture);
+            }
+        }
+
+        // white pawns
+        if (this.getTeamColor() == ChessGame.TeamColor.WHITE) {
+            // if at the other side   TODO: implement promoting
+            if (pos.getRow() == 8) {
+                return the_moves;
+            }
+            new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn());
+            // if open
+            if (board.getPiece(new_pos) == null) {
+                ChessMove one = new ChessMove(pos, new_pos, null);
+                the_moves.add(one);
+            }
+            // if not moved
+            if (pos.getRow() == 2) {
+                ChessPosition newer_pos = new ChessPosition(pos.getRow()+2, pos.getColumn());
+                // if open
+                if (board.getPiece(newer_pos) == null && board.getPiece(new_pos) == null) {
+                    ChessMove two = new ChessMove(pos, newer_pos, null);
+                    the_moves.add(two);
+                }
+            }
+            // if can attack left
+            new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
+            if (board.getPiece(new_pos) != null && board.getPiece(new_pos).getTeamColor() != this.getTeamColor()) {
+                ChessMove capture = new ChessMove(pos, new_pos, null);
+                the_moves.add(capture);
+            }
+            // if can attack right
+            new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
+            if (board.getPiece(new_pos) != null && board.getPiece(new_pos).getTeamColor() != this.getTeamColor()) {
+                ChessMove capture = new ChessMove(pos, new_pos, null);
+                the_moves.add(capture);
+            }
+        }
+
+
+
+        return the_moves;
+    }
 
 
     /**
@@ -583,6 +667,9 @@ public class ChessPiece {
         }
         if (this.type == PieceType.KING) {
             return findKingMoves(board, myPosition);
+        }
+        if (this.type == PieceType.PAWN) {
+            return findPawnMoves(board, myPosition);
         }
         throw new RuntimeException("Not implemented");
 
