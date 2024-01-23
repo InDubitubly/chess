@@ -113,7 +113,7 @@ public class ChessPiece {
         Collection<ChessMove> the_moves = new HashSet<>();
 
         // up and left
-        if (pos.getRow()+2 < 9 || pos.getColumn()-1 > 0) {
+        if (pos.getRow()+2 < 9 && pos.getColumn()-1 > 0) {
             new_pos=new ChessPosition(pos.getRow() + 2, pos.getColumn() - 1);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
@@ -126,7 +126,7 @@ public class ChessPiece {
             }
         }
         // up and right
-        if (pos.getRow()+2 < 9 || pos.getColumn()+1 < 9) {
+        if (pos.getRow()+2 < 9 && pos.getColumn()+1 < 9) {
             new_pos=new ChessPosition(pos.getRow() + 2, pos.getColumn() + 1);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
@@ -139,7 +139,7 @@ public class ChessPiece {
             }
         }
         //left and up
-        if (pos.getRow()+1 < 9 || pos.getColumn()-2 > 0) {
+        if (pos.getRow()+1 < 9 && pos.getColumn()-2 > 0) {
             new_pos=new ChessPosition(pos.getRow() + 1, pos.getColumn() - 2);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
@@ -152,7 +152,7 @@ public class ChessPiece {
             }
         }
         // right and up
-        if (pos.getRow()+1 < 9 || pos.getColumn()+2 < 9) {
+        if (pos.getRow()+1 < 9 && pos.getColumn()+2 < 9) {
             new_pos=new ChessPosition(pos.getRow() + 1, pos.getColumn() + 2);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
@@ -165,7 +165,7 @@ public class ChessPiece {
             }
         }
         // left and down
-        if (pos.getRow()-1 > 0 || pos.getColumn()-2 > 0) {
+        if (pos.getRow()-1 > 0 && pos.getColumn()-2 > 0) {
             new_pos=new ChessPosition(pos.getRow() - 1, pos.getColumn() - 2);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
@@ -178,7 +178,7 @@ public class ChessPiece {
             }
         }
         // right and down
-        if (pos.getRow()-1 > 0 || pos.getColumn()+2 < 9) {
+        if (pos.getRow()-1 > 0 && pos.getColumn()+2 < 9) {
             new_pos=new ChessPosition(pos.getRow() - 1, pos.getColumn() + 2);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
@@ -191,7 +191,7 @@ public class ChessPiece {
             }
         }
         // down and left
-        if (pos.getRow()-2 > 0 || pos.getColumn()-1 > 0) {
+        if (pos.getRow()-2 > 0 && pos.getColumn()-1 > 0) {
             new_pos=new ChessPosition(pos.getRow() - 2, pos.getColumn() - 1);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
@@ -204,7 +204,7 @@ public class ChessPiece {
             }
         }
         // down and right
-        if (pos.getRow()-2 > 0 || pos.getColumn()+1 < 9) {
+        if (pos.getRow()-2 > 0 && pos.getColumn()+1 < 9) {
             new_pos=new ChessPosition(pos.getRow() - 2, pos.getColumn() + 1);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
