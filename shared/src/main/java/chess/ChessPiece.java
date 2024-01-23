@@ -275,6 +275,164 @@ public class ChessPiece {
     }
 
 
+    /**
+     * Queen Moves - combo of bishop and rook
+     * @param board
+     * @param pos
+     * @return
+     */
+    public Collection<ChessMove> findQueenMoves(ChessBoard board, ChessPosition pos) {
+        ChessPosition start = pos;
+        ChessPosition new_pos = null;
+        Collection<ChessMove> the_moves = new HashSet<>();
+        // up-left test
+        while (pos.getRow() < 8 && pos.getColumn() > 1){
+            new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
+            if (board.getPiece(new_pos) != null){
+                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
+                    break;
+                } else {
+                    ChessMove capture = new ChessMove(start, new_pos, null);
+                    the_moves.add(capture);
+                    break;
+                }
+            } else {
+                ChessMove open = new ChessMove(start, new_pos, null);
+                the_moves.add(open);
+                pos = new_pos;
+            }
+        }
+        // up-right test
+        pos = start;
+        while (pos.getRow() < 8 && pos.getColumn() < 8){
+            new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
+            if (board.getPiece(new_pos) != null){
+                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
+                    break;
+                } else {
+                    ChessMove capture = new ChessMove(start, new_pos, null);
+                    the_moves.add(capture);
+                    break;
+                }
+            } else {
+                ChessMove open = new ChessMove(start, new_pos, null);
+                the_moves.add(open);
+                pos = new_pos;
+            }
+        }
+        // down-left test
+        pos = start;
+        while (pos.getRow() > 1 && pos.getColumn() > 1){
+            new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
+            if (board.getPiece(new_pos) != null){
+                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
+                    break;
+                } else {
+                    ChessMove capture = new ChessMove(start, new_pos, null);
+                    the_moves.add(capture);
+                    break;
+                }
+            } else {
+                ChessMove open = new ChessMove(start, new_pos, null);
+                the_moves.add(open);
+                pos = new_pos;
+            }
+        }
+        // down-right test
+        pos = start;
+        while (pos.getRow() > 1 && pos.getColumn() < 8){
+            new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
+            if (board.getPiece(new_pos) != null){
+                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
+                    break;
+                } else {
+                    ChessMove capture = new ChessMove(start, new_pos, null);
+                    the_moves.add(capture);
+                    break;
+                }
+            } else {
+                ChessMove open = new ChessMove(start, new_pos, null);
+                the_moves.add(open);
+                pos = new_pos;
+            }
+        }
+        // up test
+        pos = start;
+        while (pos.getRow() < 8){
+            new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn());
+            if (board.getPiece(new_pos) != null){
+                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
+                    break;
+                } else {
+                    ChessMove capture = new ChessMove(start, new_pos, null);
+                    the_moves.add(capture);
+                    break;
+                }
+            } else {
+                ChessMove open = new ChessMove(start, new_pos, null);
+                the_moves.add(open);
+                pos = new_pos;
+            }
+        }
+        // right test
+        pos = start;
+        while (pos.getColumn() < 8){
+            new_pos = new ChessPosition(pos.getRow(), pos.getColumn()+1);
+            if (board.getPiece(new_pos) != null){
+                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
+                    break;
+                } else {
+                    ChessMove capture = new ChessMove(start, new_pos, null);
+                    the_moves.add(capture);
+                    break;
+                }
+            } else {
+                ChessMove open = new ChessMove(start, new_pos, null);
+                the_moves.add(open);
+                pos = new_pos;
+            }
+        }
+        // left test
+        pos = start;
+        while (pos.getColumn() > 1){
+            new_pos = new ChessPosition(pos.getRow(), pos.getColumn()-1);
+            if (board.getPiece(new_pos) != null){
+                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
+                    break;
+                } else {
+                    ChessMove capture = new ChessMove(start, new_pos, null);
+                    the_moves.add(capture);
+                    break;
+                }
+            } else {
+                ChessMove open = new ChessMove(start, new_pos, null);
+                the_moves.add(open);
+                pos = new_pos;
+            }
+        }
+        // down test
+        pos = start;
+        while (pos.getRow() > 1){
+            new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn());
+            if (board.getPiece(new_pos) != null){
+                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
+                    break;
+                } else {
+                    ChessMove capture = new ChessMove(start, new_pos, null);
+                    the_moves.add(capture);
+                    break;
+                }
+            } else {
+                ChessMove open = new ChessMove(start, new_pos, null);
+                the_moves.add(open);
+                pos = new_pos;
+            }
+        }
+        // return collection
+        return the_moves;
+    }
+
+
 
     /**
      * Calculates all the positions a chess piece can move to
@@ -289,6 +447,9 @@ public class ChessPiece {
         }
         if (this.type == PieceType.ROOK) {
             return findRookMoves(board, myPosition);
+        }
+        if (this.type == PieceType.QUEEN) {
+            return findQueenMoves(board, myPosition);
         }
         throw new RuntimeException("Not implemented");
 
