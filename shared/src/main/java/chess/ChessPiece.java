@@ -11,8 +11,8 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessPiece {
-    PieceType type;
-    ChessGame.TeamColor color;
+    private PieceType type;
+    private ChessGame.TeamColor color;
 
     @Override
     public boolean equals(Object o) {
@@ -111,20 +111,71 @@ public class ChessPiece {
      *
      */
     public Collection<ChessMove> findBishopMoves(ChessBoard board, ChessPosition pos) {
-        Collection<ChessMove> the_moves = new HashSet<>();
-            /**
-             * if wall, stop
-             * if piece opposite, include and stop
-             * if piece same, don't include and stop
-             * if null, add and continue
-             * iterate to next space following pattern
-             */
-
-//        the_moves.add();
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> the_moves = new HashSet<ChessMove>();
+        ChessPosition up_left = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
+        ChessPosition up_right = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
+        ChessPosition down_left = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
+        ChessPosition down_right = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
+        Collection<ChessMove> up_left_move = bishopHelper(board, up_left, pos);
+        Collection<ChessMove> up_right_move = bishopHelper(board, up_right, pos);
+        Collection<ChessMove> down_left_move = bishopHelper(board, down_left, pos);
+        Collection<ChessMove> down_right_move = bishopHelper(board, down_right, pos);
+        if (up_left_move != null) {
+            the_moves.addAll(up_left_move);
+        }
+        if (up_right_move != null){
+            the_moves.addAll(up_right_move);
+        }
+        if (down_left_move != null){
+            the_moves.addAll(down_left_move);
+        }
+        if (down_right_move != null) {
+            the_moves.addAll(down_right_move);
+        }
+        return the_moves;
     }
 
-
+    /**
+     * if wall, stop
+     * if piece opposite, include and stop
+     * if piece same, don't include and stop
+     * if null, add and continue
+     * iterate to next space following pattern
+     */
+    public Collection<ChessMove> bishopHelper(ChessBoard board, ChessPosition pos, ChessPosition start){
+        Collection<ChessMove> adder = new HashSet<ChessMove>();
+        if (pos.getRow() > 8 || pos.getRow() < 1) {
+            return null;
+        } else if (pos.getColumn() > 8 || pos.getColumn() < 1) {
+            return null;
+        } else if (board.getPiece(pos) != null) {
+            return null;
+        } else {
+            ChessMove move = new ChessMove(start, pos, this.getPieceType());
+            adder.add(move);
+            ChessPosition up_left = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
+            ChessPosition up_right = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
+            ChessPosition down_left = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
+            ChessPosition down_right = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
+            Collection<ChessMove> up_left_move = bishopHelper(board, up_left, start);
+            Collection<ChessMove> up_right_move = bishopHelper(board, up_right, start);
+            Collection<ChessMove> down_left_move = bishopHelper(board, down_left, start);
+            Collection<ChessMove> down_right_move = bishopHelper(board, down_right, start);
+            if (up_left_move != null) {
+                adder.addAll(up_left_move);
+            }
+            if (up_right_move != null){
+                adder.addAll(up_right_move);
+            }
+            if (down_left_move != null){
+                adder.addAll(down_left_move);
+            }
+            if (down_right_move != null) {
+                adder.addAll(down_right_move);
+            }
+            return adder;
+        }
+    }
 
 
     /**
