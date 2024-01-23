@@ -112,9 +112,16 @@ public class ChessPiece {
      */
     public Collection<ChessMove> findBishopMoves(ChessBoard board, ChessPosition pos) {
         Collection<ChessMove> the_moves = new HashSet<>();
+            /**
+             * if wall, stop
+             * if piece opposite, include and stop
+             * if piece same, don't include and stop
+             * if null, add and continue
+             * iterate to next space following pattern
+             */
 
 //        the_moves.add();
-        return the_moves;
+        throw new RuntimeException("Not implemented");
     }
 
 
@@ -131,6 +138,7 @@ public class ChessPiece {
         if (this.type == PieceType.BISHOP) {
             return findBishopMoves(board, myPosition);
         }
-        return null;
+        throw new RuntimeException("Not implemented");
+
     }
 }
