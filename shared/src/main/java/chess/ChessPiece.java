@@ -681,21 +681,47 @@ public class ChessPiece {
      * @param pos
      * @return
      */
+
+    private boolean isPromoted(int row) {
+        // black promoting (white pawns can't hit row 1)
+        if (row == 1) {
+            return true;
+        }
+        // white promoting (black pawns can't hit row 8
+        if (row == 8) {
+            return true;
+        }
+        return false;
+    }
+
+    private Collection<ChessMove> getPromotions(ChessPosition start, ChessPosition end){
+        ChessMove queen = new ChessMove(start, end, PieceType.QUEEN);
+        ChessMove rook = new ChessMove(start, end, PieceType.ROOK);
+        ChessMove knight = new ChessMove(start, end, PieceType.KNIGHT);
+        ChessMove bishop = new ChessMove(start, end, PieceType.BISHOP);
+        Collection<ChessMove> all = new HashSet<>();
+        all.add(queen);
+        all.add(rook);
+        all.add(knight);
+        all.add(bishop);
+        return all;
+    }
     public Collection<ChessMove> findPawnMoves(ChessBoard board, ChessPosition pos) {
         ChessPosition new_pos = null;
         Collection<ChessMove> the_moves = new HashSet<>();
+        boolean promoted = false;
 
         //black pawns
         if (this.getTeamColor() == ChessGame.TeamColor.BLACK ) {
-            // if at the other side   TODO: implement promoting
-            if (pos.getRow() == 1) {
-                return the_moves;
-            }
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn());
             // if open
             if (board.getPiece(new_pos) == null) {
-                ChessMove one = new ChessMove(pos, new_pos, null);
-                the_moves.add(one);
+                if (isPromoted(new_pos.getRow())){
+                    the_moves.addAll(getPromotions(pos, new_pos));
+                } else {
+                    ChessMove one=new ChessMove(pos, new_pos, null);
+                    the_moves.add(one);
+                }
             }
             // if not moved
             if (pos.getRow() == 7) {
@@ -709,28 +735,36 @@ public class ChessPiece {
             // if can attack left
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
             if (board.getPiece(new_pos) != null && board.getPiece(new_pos).getTeamColor() != this.getTeamColor()) {
-                ChessMove capture = new ChessMove(pos, new_pos, null);
-                the_moves.add(capture);
+                if (isPromoted(new_pos.getRow())){
+                    the_moves.addAll(getPromotions(pos, new_pos));
+                } else {
+                    ChessMove one=new ChessMove(pos, new_pos, null);
+                    the_moves.add(one);
+                }
             }
             // if can attack right
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
             if (board.getPiece(new_pos) != null && board.getPiece(new_pos).getTeamColor() != this.getTeamColor()) {
-                ChessMove capture = new ChessMove(pos, new_pos, null);
-                the_moves.add(capture);
+                if (isPromoted(new_pos.getRow())){
+                    the_moves.addAll(getPromotions(pos, new_pos));
+                } else {
+                    ChessMove one=new ChessMove(pos, new_pos, null);
+                    the_moves.add(one);
+                }
             }
         }
 
         // white pawns
         if (this.getTeamColor() == ChessGame.TeamColor.WHITE) {
-            // if at the other side   TODO: implement promoting
-            if (pos.getRow() == 8) {
-                return the_moves;
-            }
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn());
             // if open
             if (board.getPiece(new_pos) == null) {
-                ChessMove one = new ChessMove(pos, new_pos, null);
-                the_moves.add(one);
+                if (isPromoted(new_pos.getRow())){
+                    the_moves.addAll(getPromotions(pos, new_pos));
+                } else {
+                    ChessMove one=new ChessMove(pos, new_pos, null);
+                    the_moves.add(one);
+                }
             }
             // if not moved
             if (pos.getRow() == 2) {
@@ -744,14 +778,22 @@ public class ChessPiece {
             // if can attack left
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
             if (board.getPiece(new_pos) != null && board.getPiece(new_pos).getTeamColor() != this.getTeamColor()) {
-                ChessMove capture = new ChessMove(pos, new_pos, null);
-                the_moves.add(capture);
+                if (isPromoted(new_pos.getRow())){
+                    the_moves.addAll(getPromotions(pos, new_pos));
+                } else {
+                    ChessMove one=new ChessMove(pos, new_pos, null);
+                    the_moves.add(one);
+                }
             }
             // if can attack right
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
             if (board.getPiece(new_pos) != null && board.getPiece(new_pos).getTeamColor() != this.getTeamColor()) {
-                ChessMove capture = new ChessMove(pos, new_pos, null);
-                the_moves.add(capture);
+                if (isPromoted(new_pos.getRow())){
+                    the_moves.addAll(getPromotions(pos, new_pos));
+                } else {
+                    ChessMove one=new ChessMove(pos, new_pos, null);
+                    the_moves.add(one);
+                }
             }
         }
 
