@@ -77,6 +77,9 @@ public class ChessBoard {
         return board[position.getRow()-1][position.getColumn()-1];
     }
 
+    public ChessPiece getPieceWithInts(int x, int y) {
+        return board[x-1][y-1];
+    }
     /**
      * Sets the board to the default starting board
      * (How the game of chess normally starts)

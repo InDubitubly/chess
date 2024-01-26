@@ -107,6 +107,14 @@ public class ChessPiece {
         return this.type;
     }
 
+
+    private Collection<ChessMove> enterSpace(ChessPosition start, ChessPosition pos) {
+        Collection<ChessMove> the_moves = new HashSet<>();
+        ChessMove capture=new ChessMove(start, pos, null);
+        the_moves.add(capture);
+        return the_moves;
+    }
+
     public Collection<ChessMove> findKnightMoves(ChessBoard board, ChessPosition pos) {
         ChessPosition start = pos;
         ChessPosition new_pos = null;
@@ -117,12 +125,10 @@ public class ChessPiece {
             new_pos=new ChessPosition(pos.getRow() + 2, pos.getColumn() - 1);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    ChessMove capture=new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open=new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
         // up and right
@@ -130,12 +136,10 @@ public class ChessPiece {
             new_pos=new ChessPosition(pos.getRow() + 2, pos.getColumn() + 1);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    ChessMove capture=new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open=new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
         //left and up
@@ -143,12 +147,10 @@ public class ChessPiece {
             new_pos=new ChessPosition(pos.getRow() + 1, pos.getColumn() - 2);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    ChessMove capture=new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open=new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
         // right and up
@@ -156,12 +158,10 @@ public class ChessPiece {
             new_pos=new ChessPosition(pos.getRow() + 1, pos.getColumn() + 2);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    ChessMove capture=new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open=new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
         // left and down
@@ -169,12 +169,10 @@ public class ChessPiece {
             new_pos=new ChessPosition(pos.getRow() - 1, pos.getColumn() - 2);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    ChessMove capture=new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open=new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
         // right and down
@@ -182,12 +180,10 @@ public class ChessPiece {
             new_pos=new ChessPosition(pos.getRow() - 1, pos.getColumn() + 2);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    ChessMove capture=new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open=new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
         // down and left
@@ -195,12 +191,10 @@ public class ChessPiece {
             new_pos=new ChessPosition(pos.getRow() - 2, pos.getColumn() - 1);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    ChessMove capture=new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open=new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
         // down and right
@@ -208,12 +202,10 @@ public class ChessPiece {
             new_pos=new ChessPosition(pos.getRow() - 2, pos.getColumn() + 1);
             if(board.getPiece(new_pos)!=null) {
                 if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    ChessMove capture=new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open=new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
 
@@ -234,13 +226,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -257,8 +247,7 @@ public class ChessPiece {
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -270,13 +259,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -288,13 +275,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -319,13 +304,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -337,13 +320,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -355,13 +336,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -373,13 +352,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -405,13 +382,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -423,13 +398,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -441,13 +414,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -459,13 +430,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -477,13 +446,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -495,13 +462,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -513,13 +478,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -531,13 +494,11 @@ public class ChessPiece {
                 if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
                     break;
                 } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                     break;
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
                 pos = new_pos;
             }
         }
@@ -561,12 +522,10 @@ public class ChessPiece {
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn());
             if (board.getPiece(new_pos) != null){
                 if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
             // if not top left
             if (pos.getColumn() > 1) {
@@ -574,12 +533,10 @@ public class ChessPiece {
                 new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
                 if (board.getPiece(new_pos) != null){
                     if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                        ChessMove capture = new ChessMove(start, new_pos, null);
-                        the_moves.add(capture);
+                        the_moves.addAll(enterSpace(start, new_pos));
                     }
                 } else {
-                    ChessMove open=new ChessMove(start, new_pos, null);
-                    the_moves.add(open);
+                    the_moves.addAll(enterSpace(start, new_pos));
 
                 }
             }
@@ -589,12 +546,10 @@ public class ChessPiece {
                 new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
                 if (board.getPiece(new_pos) != null){
                     if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                        ChessMove capture = new ChessMove(start, new_pos, null);
-                        the_moves.add(capture);
+                        the_moves.addAll(enterSpace(start, new_pos));
                     }
                 } else {
-                    ChessMove open = new ChessMove(start, new_pos, null);
-                    the_moves.add(open);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             }
         }
@@ -605,12 +560,10 @@ public class ChessPiece {
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn());
             if (board.getPiece(new_pos) != null){
                 if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
             // if not bottom left
             if (pos.getColumn() > 1) {
@@ -618,12 +571,10 @@ public class ChessPiece {
                 new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
                 if (board.getPiece(new_pos) != null){
                     if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                        ChessMove capture = new ChessMove(start, new_pos, null);
-                        the_moves.add(capture);
+                        the_moves.addAll(enterSpace(start, new_pos));
                     }
                 } else {
-                    ChessMove open = new ChessMove(start, new_pos, null);
-                    the_moves.add(open);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             }
             // if not bottom right
@@ -632,12 +583,10 @@ public class ChessPiece {
                 new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
                 if (board.getPiece(new_pos) != null){
                     if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                        ChessMove capture = new ChessMove(start, new_pos, null);
-                        the_moves.add(capture);
+                        the_moves.addAll(enterSpace(start, new_pos));
                     }
                 } else {
-                    ChessMove open = new ChessMove(start, new_pos, null);
-                    the_moves.add(open);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             }
         }
@@ -648,12 +597,10 @@ public class ChessPiece {
             new_pos = new ChessPosition(pos.getRow(), pos.getColumn()-1);
             if (board.getPiece(new_pos) != null){
                 if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
 
@@ -663,24 +610,16 @@ public class ChessPiece {
             new_pos = new ChessPosition(pos.getRow(), pos.getColumn()+1);
             if (board.getPiece(new_pos) != null){
                 if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
+                    the_moves.addAll(enterSpace(start, new_pos));
                 }
             } else {
-                ChessMove open = new ChessMove(start, new_pos, null);
-                the_moves.add(open);
+                the_moves.addAll(enterSpace(start, new_pos));
             }
         }
         // return collection
         return the_moves;
     }
-
-    /**
-     * Pawns
-     * @param board
-     * @param pos
-     * @return
-     */
+    
 
     private boolean isPromoted(int row) {
         // black promoting (white pawns can't hit row 1)
@@ -719,8 +658,7 @@ public class ChessPiece {
                 if (isPromoted(new_pos.getRow())){
                     the_moves.addAll(getPromotions(pos, new_pos));
                 } else {
-                    ChessMove one=new ChessMove(pos, new_pos, null);
-                    the_moves.add(one);
+                    the_moves.addAll(enterSpace(pos, new_pos));
                 }
             }
             // if not moved
@@ -728,8 +666,7 @@ public class ChessPiece {
                 ChessPosition newer_pos = new ChessPosition(pos.getRow()-2, pos.getColumn());
                 // if open
                 if (board.getPiece(newer_pos) == null && board.getPiece(new_pos) == null) {
-                    ChessMove two = new ChessMove(pos, newer_pos, null);
-                    the_moves.add(two);
+                    the_moves.addAll(enterSpace(pos, newer_pos));
                 }
             }
             // if can attack left
@@ -738,8 +675,7 @@ public class ChessPiece {
                 if (isPromoted(new_pos.getRow())){
                     the_moves.addAll(getPromotions(pos, new_pos));
                 } else {
-                    ChessMove one=new ChessMove(pos, new_pos, null);
-                    the_moves.add(one);
+                    the_moves.addAll(enterSpace(pos, new_pos));
                 }
             }
             // if can attack right
@@ -748,8 +684,7 @@ public class ChessPiece {
                 if (isPromoted(new_pos.getRow())){
                     the_moves.addAll(getPromotions(pos, new_pos));
                 } else {
-                    ChessMove one=new ChessMove(pos, new_pos, null);
-                    the_moves.add(one);
+                    the_moves.addAll(enterSpace(pos, new_pos));
                 }
             }
         }
@@ -762,8 +697,7 @@ public class ChessPiece {
                 if (isPromoted(new_pos.getRow())){
                     the_moves.addAll(getPromotions(pos, new_pos));
                 } else {
-                    ChessMove one=new ChessMove(pos, new_pos, null);
-                    the_moves.add(one);
+                    the_moves.addAll(enterSpace(pos, new_pos));
                 }
             }
             // if not moved
@@ -771,8 +705,7 @@ public class ChessPiece {
                 ChessPosition newer_pos = new ChessPosition(pos.getRow()+2, pos.getColumn());
                 // if open
                 if (board.getPiece(newer_pos) == null && board.getPiece(new_pos) == null) {
-                    ChessMove two = new ChessMove(pos, newer_pos, null);
-                    the_moves.add(two);
+                    the_moves.addAll(enterSpace(pos, newer_pos));
                 }
             }
             // if can attack left
@@ -781,8 +714,7 @@ public class ChessPiece {
                 if (isPromoted(new_pos.getRow())){
                     the_moves.addAll(getPromotions(pos, new_pos));
                 } else {
-                    ChessMove one=new ChessMove(pos, new_pos, null);
-                    the_moves.add(one);
+                    the_moves.addAll(enterSpace(pos, new_pos));
                 }
             }
             // if can attack right
@@ -791,8 +723,7 @@ public class ChessPiece {
                 if (isPromoted(new_pos.getRow())){
                     the_moves.addAll(getPromotions(pos, new_pos));
                 } else {
-                    ChessMove one=new ChessMove(pos, new_pos, null);
-                    the_moves.add(one);
+                    the_moves.addAll(enterSpace(pos, new_pos));
                 }
             }
         }
