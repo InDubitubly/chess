@@ -115,98 +115,53 @@ public class ChessPiece {
         return the_moves;
     }
 
+    private Collection<ChessMove> checkSpace(ChessBoard board, ChessPosition pos, ChessPosition start, int row_off, int col_off) {
+        Collection<ChessMove> the_moves = new HashSet<>();
+        ChessPosition new_pos=new ChessPosition(pos.getRow() + row_off, pos.getColumn() + col_off);
+        if(board.getPiece(new_pos)!=null) {
+            if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
+                the_moves.addAll(enterSpace(start, new_pos));
+            }
+        } else {
+            the_moves.addAll(enterSpace(start, new_pos));
+        }
+        return the_moves;
+    }
+
     public Collection<ChessMove> findKnightMoves(ChessBoard board, ChessPosition pos) {
-        ChessPosition start = pos;
-        ChessPosition new_pos = null;
         Collection<ChessMove> the_moves = new HashSet<>();
 
         // up and left
         if (pos.getRow()+2 < 9 && pos.getColumn()-1 > 0) {
-            new_pos=new ChessPosition(pos.getRow() + 2, pos.getColumn() - 1);
-            if(board.getPiece(new_pos)!=null) {
-                if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, +2, -1));
         }
         // up and right
         if (pos.getRow()+2 < 9 && pos.getColumn()+1 < 9) {
-            new_pos=new ChessPosition(pos.getRow() + 2, pos.getColumn() + 1);
-            if(board.getPiece(new_pos)!=null) {
-                if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, +2, +1));
         }
         //left and up
         if (pos.getRow()+1 < 9 && pos.getColumn()-2 > 0) {
-            new_pos=new ChessPosition(pos.getRow() + 1, pos.getColumn() - 2);
-            if(board.getPiece(new_pos)!=null) {
-                if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, +1, -2));
         }
         // right and up
         if (pos.getRow()+1 < 9 && pos.getColumn()+2 < 9) {
-            new_pos=new ChessPosition(pos.getRow() + 1, pos.getColumn() + 2);
-            if(board.getPiece(new_pos)!=null) {
-                if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, +1, +2));
         }
         // left and down
         if (pos.getRow()-1 > 0 && pos.getColumn()-2 > 0) {
-            new_pos=new ChessPosition(pos.getRow() - 1, pos.getColumn() - 2);
-            if(board.getPiece(new_pos)!=null) {
-                if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, -1, -2));
         }
         // right and down
         if (pos.getRow()-1 > 0 && pos.getColumn()+2 < 9) {
-            new_pos=new ChessPosition(pos.getRow() - 1, pos.getColumn() + 2);
-            if(board.getPiece(new_pos)!=null) {
-                if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, -1, +2));
         }
         // down and left
         if (pos.getRow()-2 > 0 && pos.getColumn()-1 > 0) {
-            new_pos=new ChessPosition(pos.getRow() - 2, pos.getColumn() - 1);
-            if(board.getPiece(new_pos)!=null) {
-                if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, -2, -1));
         }
         // down and right
         if (pos.getRow()-2 > 0 && pos.getColumn()+1 < 9) {
-            new_pos=new ChessPosition(pos.getRow() - 2, pos.getColumn() + 1);
-            if(board.getPiece(new_pos)!=null) {
-                if(board.getPiece(new_pos).getTeamColor()!=this.getTeamColor()) {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, -2, +1));
         }
 
         return the_moves;
@@ -222,65 +177,44 @@ public class ChessPiece {
         // up-left test
         while (pos.getRow() < 8 && pos.getColumn() > 1){
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, +1, -1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // up-right test
         pos = start;
         while (pos.getRow() < 8 && pos.getColumn() < 8){
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    ChessMove capture = new ChessMove(start, new_pos, null);
-                    the_moves.add(capture);
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, +1, +1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // down-left test
         pos = start;
         while (pos.getRow() > 1 && pos.getColumn() > 1){
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, -1, -1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // down-right test
         pos = start;
         while (pos.getRow() > 1 && pos.getColumn() < 8){
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, -1, +1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // return collection
@@ -300,64 +234,44 @@ public class ChessPiece {
         // up test
         while (pos.getRow() < 8){
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn());
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, +1, 0));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // right test
         pos = start;
         while (pos.getColumn() < 8){
             new_pos = new ChessPosition(pos.getRow(), pos.getColumn()+1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, 0, +1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // left test
         pos = start;
         while (pos.getColumn() > 1){
             new_pos = new ChessPosition(pos.getRow(), pos.getColumn()-1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, 0, -1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // down test
         pos = start;
         while (pos.getRow() > 1){
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn());
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, -1, 0));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // return collection
@@ -378,128 +292,88 @@ public class ChessPiece {
         // up-left test
         while (pos.getRow() < 8 && pos.getColumn() > 1){
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, +1, -1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // up-right test
         pos = start;
         while (pos.getRow() < 8 && pos.getColumn() < 8){
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, +1, +1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // down-left test
         pos = start;
         while (pos.getRow() > 1 && pos.getColumn() > 1){
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, -1, -1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // down-right test
         pos = start;
         while (pos.getRow() > 1 && pos.getColumn() < 8){
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, -1, +1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // up test
         pos = start;
         while (pos.getRow() < 8){
             new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn());
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, +1, 0));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // right test
         pos = start;
         while (pos.getColumn() < 8){
             new_pos = new ChessPosition(pos.getRow(), pos.getColumn()+1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, 0, +1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // left test
         pos = start;
         while (pos.getColumn() > 1){
             new_pos = new ChessPosition(pos.getRow(), pos.getColumn()-1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, 0, -1));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // down test
         pos = start;
         while (pos.getRow() > 1){
             new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn());
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() == this.getTeamColor()){
-                    break;
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                    break;
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
+            the_moves.addAll(checkSpace(board, pos, start, -1, 0));
+            if (board.getPiece(new_pos) == null){
                 pos = new_pos;
+            } else {
+                break;
             }
         }
         // return collection
@@ -519,102 +393,43 @@ public class ChessPiece {
         // if not top row
         if (pos.getRow() < 8) {
             // up test
-            new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn());
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, +1, 0));
             // if not top left
             if (pos.getColumn() > 1) {
                 // up-left test
-                new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()-1);
-                if (board.getPiece(new_pos) != null){
-                    if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                        the_moves.addAll(enterSpace(start, new_pos));
-                    }
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-
-                }
+                the_moves.addAll(checkSpace(board, pos, pos, +1, -1));
             }
             // if not top right
             if (pos.getColumn() < 8) {
                 // up-right test
-                new_pos = new ChessPosition(pos.getRow()+1, pos.getColumn()+1);
-                if (board.getPiece(new_pos) != null){
-                    if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                        the_moves.addAll(enterSpace(start, new_pos));
-                    }
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
+                the_moves.addAll(checkSpace(board, pos, pos, +1, +1));
             }
         }
 
         // if not bottom row
         if (pos.getRow() > 1) {
             // down test
-            new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn());
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, -1, 0));
             // if not bottom left
             if (pos.getColumn() > 1) {
                 // down-left test
-                new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()-1);
-                if (board.getPiece(new_pos) != null){
-                    if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                        the_moves.addAll(enterSpace(start, new_pos));
-                    }
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
+                the_moves.addAll(checkSpace(board, pos, pos, -1, -1));
             }
             // if not bottom right
             if (pos.getColumn() < 8) {
                 // down-right test
-                new_pos = new ChessPosition(pos.getRow()-1, pos.getColumn()+1);
-                if (board.getPiece(new_pos) != null){
-                    if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                        the_moves.addAll(enterSpace(start, new_pos));
-                    }
-                } else {
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
+                the_moves.addAll(checkSpace(board, pos, pos, -1, +1));
             }
         }
-
         // if not left
         if (pos.getColumn() > 1) {
             // left test
-            new_pos = new ChessPosition(pos.getRow(), pos.getColumn()-1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, 0, -1));
         }
-
         // if not right
         if (pos.getColumn() < 8) {
             // right test
-            new_pos = new ChessPosition(pos.getRow(), pos.getColumn()+1);
-            if (board.getPiece(new_pos) != null){
-                if (board.getPiece(new_pos).getTeamColor() != this.getTeamColor()){
-                    the_moves.addAll(enterSpace(start, new_pos));
-                }
-            } else {
-                the_moves.addAll(enterSpace(start, new_pos));
-            }
+            the_moves.addAll(checkSpace(board, pos, pos, 0, +1));
         }
         // return collection
         return the_moves;
@@ -761,6 +576,5 @@ public class ChessPiece {
             return findKnightMoves(board, myPosition);
         }
         throw new RuntimeException("Not implemented");
-
     }
 }
