@@ -1,6 +1,8 @@
 package chess;
 
+import java.security.InvalidParameterException;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -9,7 +11,7 @@ import java.util.Collection;
  * signature of the existing methods.
  */
 public class ChessGame {
-
+    ChessBoard board = new ChessBoard();
     public ChessGame() {
 
     }
@@ -66,7 +68,32 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> the_moves = new HashSet<>();
+        ChessPosition curr_pos = null;
+        ChessPiece curr_piece = null;
+        ChessPosition king_pos = null;
+        for (int i = 1; i < 9; i++){
+            for (int j = 1; j < 9; j++){
+                curr_pos = new ChessPosition(i,j);
+                curr_piece = board.getPiece(curr_pos);
+                if (curr_piece != null && curr_piece.getTeamColor() != teamColor) {
+                    the_moves.addAll(curr_piece.pieceMoves(board, curr_pos));
+                }
+                if (curr_piece != null && curr_piece.getTeamColor() == teamColor
+                        && curr_piece.getPieceType() == ChessPiece.PieceType.KING){
+                    king_pos = curr_pos;
+                }
+            }
+        }
+        if (king_pos == null){
+            throw new RuntimeException("board does not contain a king of this color");
+        }
+        for (ChessMove move : the_moves){
+            if (move.getEndPosition().equals(king_pos)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -96,7 +123,7 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-        throw new RuntimeException("Not implemented");
+        this.board = board;
     }
 
     /**
