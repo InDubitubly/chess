@@ -9,40 +9,42 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessMove {
-    ChessPosition start;
-    ChessPosition end;
-    ChessPiece.PieceType type;
+    private ChessPosition start;
+    private ChessPosition end;
+    private ChessPiece.PieceType promo;
+
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,
                      ChessPiece.PieceType promotionPiece) {
-        start = startPosition;
-        end = endPosition;
-        type = promotionPiece;
+        this.start = startPosition;
+        this.end = endPosition;
+        this.promo = promotionPiece;
     }
 
     @Override
     public boolean equals(Object o) {
         if(this==o) return true;
-        if(!(o instanceof ChessMove chessMove)) return false;
-        return Objects.equals(start, chessMove.start) && Objects.equals(end, chessMove.end) && type==chessMove.type;
+        if(o==null || getClass()!=o.getClass()) return false;
+        ChessMove chessMove=(ChessMove) o;
+        return Objects.equals(start, chessMove.start) && Objects.equals(end, chessMove.end) && promo==chessMove.promo;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(start, end, type);
+        return Objects.hash(start, end, promo);
     }
 
     /**
      * @return ChessPosition of starting location
      */
     public ChessPosition getStartPosition() {
-        throw new RuntimeException("Not implemented");
+        return start;
     }
 
     /**
      * @return ChessPosition of ending location
      */
     public ChessPosition getEndPosition() {
-        throw new RuntimeException("Not implemented");
+        return end;
     }
 
     /**
@@ -52,6 +54,6 @@ public class ChessMove {
      * @return Type of piece to promote a pawn to, or null if no promotion
      */
     public ChessPiece.PieceType getPromotionPiece() {
-        throw new RuntimeException("Not implemented");
+        return promo;
     }
 }
