@@ -302,7 +302,7 @@ public class ChessPiece {
                 moves.addAll(calculateMove(board, pos, pos, new ChessPosition(pos.getRow()+2, pos.getColumn()-1), null));
             }
         }
-        if (pos.getRow()> 1) {
+        if (pos.getRow()> 2) {
             if (pos.getColumn() < 8) {
                 moves.addAll(calculateMove(board, pos, pos, new ChessPosition(pos.getRow()-2, pos.getColumn()+1), null));
             }
@@ -319,7 +319,7 @@ public class ChessPiece {
 
             }
         }
-        if (pos.getColumn() > 1) {
+        if (pos.getColumn() > 2) {
             if (pos.getRow() < 8){
                 moves.addAll(calculateMove(board, pos, pos, new ChessPosition(pos.getRow()+1, pos.getColumn()-2), null));
             }
@@ -359,10 +359,10 @@ public class ChessPiece {
                         moves.addAll(calculatePawns(board, pos,8, new ChessPosition(pos.getRow()+2, pos.getColumn())));
                     }
                 }
-                if (board.getPiece(new ChessPosition(pos.getRow()+ 1, pos.getColumn()-1)) != null){
+                if (pos.getColumn() > 1 && board.getPiece(new ChessPosition(pos.getRow()+ 1, pos.getColumn()-1)) != null){
                     moves.addAll(calculatePawns(board, pos, 8, new ChessPosition(pos.getRow()+1, pos.getColumn()-1)));
                 }
-                if (board.getPiece(new ChessPosition(pos.getRow()+ 1, pos.getColumn()+1)) != null){
+                if (pos.getColumn() < 8 && board.getPiece(new ChessPosition(pos.getRow()+ 1, pos.getColumn()+1)) != null){
                     moves.addAll(calculatePawns(board, pos, 8, new ChessPosition(pos.getRow()+1, pos.getColumn()+1)));
                 }
                 break;
@@ -376,10 +376,10 @@ public class ChessPiece {
                         moves.addAll(calculatePawns(board, pos,1, new ChessPosition(pos.getRow()-2, pos.getColumn())));
                     }
                 }
-                if (board.getPiece(new ChessPosition(pos.getRow()- 1, pos.getColumn()-1)) != null){
+                if (pos.getColumn() > 1 && board.getPiece(new ChessPosition(pos.getRow()- 1, pos.getColumn()-1)) != null){
                     moves.addAll(calculatePawns(board, pos, 1, new ChessPosition(pos.getRow()-1, pos.getColumn()-1)));
                 }
-                if (board.getPiece(new ChessPosition(pos.getRow()- 1, pos.getColumn()+1)) != null){
+                if (pos.getColumn() < 8 && board.getPiece(new ChessPosition(pos.getRow()- 1, pos.getColumn()+1)) != null){
                     moves.addAll(calculatePawns(board, pos, 1, new ChessPosition(pos.getRow()-1, pos.getColumn()+1)));
                 }
                 break;
