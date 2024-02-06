@@ -90,10 +90,10 @@ public class ChessGame {
         }
         for (ChessMove move : the_moves){
             if (move.getEndPosition().equals(king_pos)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
