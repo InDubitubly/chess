@@ -52,6 +52,7 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         ChessPiece moving_piece = board.getPiece(startPosition);
+
         if (moving_piece == null) {
             return null;
         }
@@ -59,6 +60,20 @@ public class ChessGame {
         if (the_moves.isEmpty()) {
             return null;
         }
+        Collection<ChessMove> invalid = new HashSet<>();
+        for (ChessMove move : the_moves){
+            ChessPiece captured = board.getPiece(move.getEndPosition());
+            board.addPiece(move.getStartPosition(), null);
+            board.addPiece(move.getEndPosition(), moving_piece);
+            if (isInCheck(getTeamTurn())){
+                board.addPiece(move.getStartPosition(), moving_piece);
+                board.addPiece(move.getEndPosition(), captured);
+                invalid.add(move);
+            }
+            board.addPiece(move.getStartPosition(), moving_piece);
+            board.addPiece(move.getEndPosition(), captured);
+        }
+        the_moves.removeAll(invalid);
         return the_moves;
     }
 
@@ -84,11 +99,11 @@ public class ChessGame {
             board.addPiece(move.getStartPosition(), null);
             ChessPiece captured = board.getPiece(move.getEndPosition());
             board.addPiece(move.getEndPosition(), moving_piece);
-            if (isInCheck(getTeamTurn())){
-                board.addPiece(move.getStartPosition(), moving_piece);
-                board.addPiece(move.getEndPosition(), captured);
-                throw new chess.InvalidMoveException();
-            }
+//            if (isInCheck(getTeamTurn())){
+//                board.addPiece(move.getStartPosition(), moving_piece);
+//                board.addPiece(move.getEndPosition(), captured);
+//                throw new chess.InvalidMoveException();
+//            }
         } else {
             throw new chess.InvalidMoveException();
         }
