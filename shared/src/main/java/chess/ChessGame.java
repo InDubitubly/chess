@@ -43,6 +43,26 @@ public class ChessGame {
         BLACK
     }
 
+
+private Collection<ChessMove> checkChecking(Collection<ChessMove> the_moves, ChessPosition startPosition) {
+        Collection<ChessMove> invalid = new HashSet<>();
+        ChessPiece moving_piece = board.getPiece(startPosition);
+        for (ChessMove m : the_moves){
+            ChessPiece captured = board.getPiece(m.getEndPosition());
+            board.addPiece(m.getStartPosition(), null);
+            board.addPiece(m.getEndPosition(), moving_piece);
+            if (isInCheck(moving_piece.getTeamColor())){
+                board.addPiece(m.getStartPosition(), moving_piece);
+                board.addPiece(m.getEndPosition(), captured);
+                invalid.add(m);
+            }
+            board.addPiece(m.getStartPosition(), moving_piece);
+            board.addPiece(m.getEndPosition(), captured);
+        }
+        the_moves.removeAll(invalid);
+        return the_moves;
+    }
+
     /**
      * Gets a valid moves for a piece at the given location
      *
@@ -60,21 +80,7 @@ public class ChessGame {
         if (the_moves.isEmpty()) {
             return null;
         }
-        Collection<ChessMove> invalid = new HashSet<>();
-        for (ChessMove move : the_moves){
-            ChessPiece captured = board.getPiece(move.getEndPosition());
-            board.addPiece(move.getStartPosition(), null);
-            board.addPiece(move.getEndPosition(), moving_piece);
-            if (isInCheck(getTeamTurn())){
-                board.addPiece(move.getStartPosition(), moving_piece);
-                board.addPiece(move.getEndPosition(), captured);
-                invalid.add(move);
-            }
-            board.addPiece(move.getStartPosition(), moving_piece);
-            board.addPiece(move.getEndPosition(), captured);
-        }
-        the_moves.removeAll(invalid);
-        return the_moves;
+        return checkChecking(the_moves, startPosition);
     }
 
     /**
@@ -95,6 +101,7 @@ public class ChessGame {
         if(the_moves==null) {
             throw new chess.InvalidMoveException();
         }
+        the_moves = checkChecking(the_moves, move.getStartPosition());
         if(the_moves.contains(move)) {
             board.addPiece(move.getStartPosition(), null);
             ChessPiece captured = board.getPiece(move.getEndPosition());
