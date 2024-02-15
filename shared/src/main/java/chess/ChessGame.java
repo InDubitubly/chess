@@ -188,7 +188,22 @@ private Collection<ChessMove> checkChecking(Collection<ChessMove> the_moves, Che
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        ChessPosition curr_pos = null;
+        ChessPiece curr_piece = null;
+        Collection<ChessMove> the_moves = new HashSet<>();
+        for (int i = 1; i < 9; i++){
+            for (int j = 1; j < 9; j++){
+                curr_pos = new ChessPosition(i,j);
+                curr_piece = board.getPiece(curr_pos);
+                if (curr_piece != null && curr_piece.getTeamColor() == teamColor){
+                    the_moves.addAll(validMoves(curr_pos));
+                }
+            }
+        }
+        if (the_moves.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
     /**
