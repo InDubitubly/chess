@@ -78,7 +78,7 @@ private Collection<ChessMove> checkChecking(Collection<ChessMove> the_moves, Che
         }
         Collection<ChessMove> the_moves = moving_piece.pieceMoves(board, startPosition);
         if (the_moves.isEmpty()) {
-            return null;
+            return the_moves;
         }
         return checkChecking(the_moves, startPosition);
     }
@@ -106,15 +106,42 @@ private Collection<ChessMove> checkChecking(Collection<ChessMove> the_moves, Che
             board.addPiece(move.getStartPosition(), null);
             ChessPiece captured = board.getPiece(move.getEndPosition());
             board.addPiece(move.getEndPosition(), moving_piece);
-//            if (isInCheck(getTeamTurn())){
-//                board.addPiece(move.getStartPosition(), moving_piece);
-//                board.addPiece(move.getEndPosition(), captured);
-//                throw new chess.InvalidMoveException();
-//            }
         } else {
             throw new chess.InvalidMoveException();
         }
         setTeamTurn(getTeamTurn() == TeamColor.WHITE ? TeamColor.BLACK : TeamColor.WHITE);
+    }
+
+    public ChessPosition getKingPos(TeamColor teamColor) {
+        ChessPosition curr_pos = null;
+        ChessPiece curr_piece = null;
+        for (int i = 1; i < 9; i++){
+            for (int j = 1; j < 9; j++){
+                curr_pos = new ChessPosition(i,j);
+                curr_piece = board.getPiece(curr_pos);
+                if (curr_piece != null && curr_piece.getTeamColor() == teamColor
+                        && curr_piece.getPieceType() == ChessPiece.PieceType.KING){
+                    return curr_pos;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Collection<ChessMove> getEnemies(TeamColor teamColor) {
+        Collection<ChessMove> the_moves = new HashSet<>();
+        ChessPosition curr_pos = null;
+        ChessPiece curr_piece = null;
+        for (int i = 1; i < 9; i++){
+            for (int j = 1; j < 9; j++){
+                curr_pos = new ChessPosition(i,j);
+                curr_piece = board.getPiece(curr_pos);
+                if (curr_piece != null && curr_piece.getTeamColor() != teamColor) {
+                    the_moves.addAll(curr_piece.pieceMoves(board, curr_pos));
+                }
+            }
+        }
+        return the_moves;
     }
 
     /**
@@ -124,23 +151,8 @@ private Collection<ChessMove> checkChecking(Collection<ChessMove> the_moves, Che
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        Collection<ChessMove> the_moves = new HashSet<>();
-        ChessPosition curr_pos = null;
-        ChessPiece curr_piece = null;
-        ChessPosition king_pos = null;
-        for (int i = 1; i < 9; i++){
-            for (int j = 1; j < 9; j++){
-                curr_pos = new ChessPosition(i,j);
-                curr_piece = board.getPiece(curr_pos);
-                if (curr_piece != null && curr_piece.getTeamColor() != teamColor) {
-                    the_moves.addAll(curr_piece.pieceMoves(board, curr_pos));
-                }
-                if (curr_piece != null && curr_piece.getTeamColor() == teamColor
-                        && curr_piece.getPieceType() == ChessPiece.PieceType.KING){
-                    king_pos = curr_pos;
-                }
-            }
-        }
+        Collection<ChessMove> the_moves = getEnemies(teamColor);
+        ChessPosition king_pos = getKingPos(teamColor);
         if (king_pos == null){
             return false;
         }
@@ -159,7 +171,13 @@ private Collection<ChessMove> checkChecking(Collection<ChessMove> the_moves, Che
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        Collection<ChessMove> enemies = getEnemies(teamColor);
+        Collection<ChessMove> valid = validMoves(getKingPos(teamColor));
+        valid.removeAll(enemies);
+        if (isInCheck(teamColor) && valid.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     /**
